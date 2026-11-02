@@ -1,0 +1,35 @@
+{
+  "query_type": "SELECT",
+  "tables": [
+    "Customers",
+    "Orders"
+  ],
+  "columns": [
+    "CustomerID",
+    "OrderID",
+    "OrderAmount"
+  ],
+  "joins": [
+    "LEFT JOIN Orders o ON c.CustomerID = o.CustomerID"
+  ],
+  "complexity": "Intermediate",
+  "filters": [
+    "HAVING SUM(o.OrderAmount) > 1000"
+  ],
+  "aggregations": [
+    "COUNT(o.OrderID)",
+    "SUM(o.OrderAmount)"
+  ],
+  "group_by": [
+    "c.CustomerID"
+  ],
+  "order_by": [],
+  "subqueries": [],
+  "business_purpose": "To find customers who have made purchases totaling more than 1000, along with the count of their orders and the total sales amount.",
+  "explanation": "This query retrieves each customer ID from the Customers table, counts how many orders they have placed, and sums the total amount they have spent based on the Orders table. It uses a LEFT JOIN to include all customers, even those without orders. The results are grouped by customer ID, and only customers whose total sales exceed 1000 are included in the output.",
+  "optimization_tips": [
+    "Ensure there are indexes on Orders.CustomerID and Customers.CustomerID to speed up the join.",
+    "Consider replacing LEFT JOIN with INNER JOIN if only customers with orders are relevant, which might improve performance.",
+    "Adding an index on Orders.OrderAmount might help with the HAVING condition if the dataset is large."
+  ]
+}
